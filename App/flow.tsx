@@ -11,7 +11,31 @@ import { logConsole, logAPIError } from './Services/LogTracker';
 export type MainFlowStateType = {
   onSplashScreenDone: Function
   init: Function
+  getNews: Function
 }
+
+export type NewsType = {
+  author: string
+  title: string
+  description: string
+  url: string
+  source: string
+  image: string
+  category: string
+  language: string
+  country: string
+  published_at: string
+}
+
+export type LocalDataType = {
+  newsData: Array<NewsType>
+  selectedNews: NewsType | null
+}
+
+const localData: LocalDataType = {
+  newsData: [],
+  selectedNews: null,
+};
 
 const MainFlowNavigationStack = createNativeStackNavigator();
 
@@ -20,17 +44,25 @@ export const MainFlowContext = React.createContext<MainFlowStateType | null>(
 );
 
 const MainFlowState = (navigation, apiService): MainFlowStateType => {
+  const resetLocalData = () => {
+    localData.newsData = [];
+    localData.selectedNews = null;
+  };
+
   const getNewsData = async (category: string) => {
     try {
       const res = await apiService.getNews(category.toLowerCase());
       const data = res?.data?.data;
       logConsole('News read: ' + data.length);
+
+      localData.newsData = data;
     } catch (err) {
       logAPIError(err);
     }
   };
 
   const init = () => {
+    resetLocalData();
     getNewsData('general');
   };
 
@@ -38,9 +70,12 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     navigation.navigate('NewsScreen');
   };
 
+  const getNews = () => (localData.newsData);
+
   return {
     init,
     onSplashScreenDone,
+    getNews,
   };
 };
 
