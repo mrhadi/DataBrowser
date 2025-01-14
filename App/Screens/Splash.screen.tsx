@@ -1,10 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
 
 function SplashScreen() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>News App</Text>
+      <Text>News Browser App</Text>
     </View>
   );
 }
