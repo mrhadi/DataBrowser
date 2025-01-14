@@ -8,7 +8,7 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "setup": "yarn install && rm -rf ios/build && (cd ios;pod install)",
+    "setup": "yarn install && rm -rf ios/build && (cd ios;pod install)"
   },
   "dependencies": {
     "@react-navigation/native": "^7.0.14",
