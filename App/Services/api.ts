@@ -15,8 +15,14 @@ const ApiService = () => {
     return client.get(url);
   };
 
+  const searchNews = async (keywords: string = '') => {
+    const url = `/news?access_key=${API_KEY}&keywords=${keywords}&limit=100`;
+    return client.get(url);
+  };
+
   return {
     getNews,
+    searchNews,
   };
 };
 

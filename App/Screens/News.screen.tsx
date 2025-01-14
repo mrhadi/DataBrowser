@@ -7,6 +7,8 @@ import { MainFlowContext, MainFlowStateType, NewsType } from '../flow';
 
 function NewsScreen() {
   const [keyword, setKeyword] = useState('');
+  const [searchMode, setSearchMode] = useState(false);
+
   const searchInputRef = useRef<TextInput>(null);
   const flatListRef = useRef<FlatList>(null);
 
@@ -20,10 +22,18 @@ function NewsScreen() {
 
   const onSearch = async () => {
     Keyboard.dismiss();
+
+    await mainFlow.searchNews(keyword);
+    setSearchMode(!searchMode);
+
+    flatListRef?.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
   const onReset = async () => {
+    await mainFlow.onResetSearch();
     setKeyword('');
+
+    flatListRef?.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
   const handleOnNewsPress = (item: NewsType) => {

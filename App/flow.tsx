@@ -12,6 +12,8 @@ export type MainFlowStateType = {
   onSplashScreenDone: Function
   init: Function
   getNews: Function
+  searchNews: Function
+  onResetSearch: Function
 }
 
 export type NewsType = {
@@ -61,6 +63,18 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     }
   };
 
+  const searchNews = async (keyword: string) => {
+    try {
+      const res = await apiService.searchNews(keyword);
+      const data = res?.data?.data;
+      logConsole('Search result: ' + data.length);
+
+      localData.newsData = data;
+    } catch (err) {
+      logAPIError(err);
+    }
+  };
+
   const init = () => {
     resetLocalData();
     getNewsData('general');
@@ -70,12 +84,20 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
     navigation.navigate('NewsScreen');
   };
 
+  const onResetSearch = async () => {
+    resetLocalData();
+
+    getNewsData('general');
+  };
+
   const getNews = () => (localData.newsData);
 
   return {
     init,
     onSplashScreenDone,
     getNews,
+    searchNews,
+    onResetSearch,
   };
 };
 
