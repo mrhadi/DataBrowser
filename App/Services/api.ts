@@ -1,8 +1,10 @@
 import axios, { AxiosInstance } from 'axios';
 import applyCaseMiddleware from 'axios-case-converter';
 
-const BASE_URL = 'https://api.mediastack.com/v1';
-const API_KEY = '06fc0d439e58e5892e7bef246d3afc45';
+import ENV from './env';
+
+const BASE_URL = ENV.BASE_API_URL;
+const API_KEY = ENV.API_KEY;
 
 const ApiService = () => {
   const client: AxiosInstance = applyCaseMiddleware(axios.create({
