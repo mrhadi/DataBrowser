@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import SplashScreen from './Screens/Splash.screen';
+import NewsScreen from './Screens/News.screen';
 
 import ApiService from './Services/api';
 import { navigationRef } from './routing';
@@ -17,7 +18,6 @@ const MainFlowNavigationStack = createNativeStackNavigator();
 export const MainFlowContext = React.createContext<MainFlowStateType | null>(
   null
 );
-
 
 const MainFlowState = (navigation, apiService): MainFlowStateType => {
   const getNewsData = async (category: string) => {
@@ -35,6 +35,7 @@ const MainFlowState = (navigation, apiService): MainFlowStateType => {
   };
 
   const onSplashScreenDone = () => {
+    navigation.navigate('NewsScreen');
   };
 
   return {
@@ -57,6 +58,11 @@ export const MainFlow = () => {
           name="SplashScreen"
           component={SplashScreen}
           options={{ headerShown: false }}
+        />
+        <MainFlowNavigationStack.Screen
+            name="NewsScreen"
+            component={NewsScreen}
+            options={{ headerShown: false }}
         />
       </MainFlowNavigationStack.Navigator>
     </MainFlowContext.Provider>
